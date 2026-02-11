@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import RippleGrid from './RippleGrid';
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -44,43 +45,53 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
   return (
     <div
       ref={preloaderRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
-      style={{
-        background: 'linear-gradient(135deg, hsl(225 25% 3%), hsl(265 20% 6%))',
-      }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
     >
-      {/* Ambient glow */}
-      <div
-        className="absolute w-[500px] h-[500px] rounded-full opacity-20"
-        style={{
-          background: 'radial-gradient(circle, hsl(190 100% 50% / 0.3), transparent)',
-          filter: 'blur(80px)',
-        }}
-      />
-
-      <h1
-        ref={textRef}
-        className="text-5xl md:text-7xl font-bold tracking-tight mb-12 gradient-text"
-        style={{ letterSpacing: '-0.03em' }}
-      >
-        Milad
-      </h1>
-
-      <div className="relative w-48 md:w-64 h-[2px] overflow-hidden rounded-full bg-muted/30">
-        <div
-          ref={progressRef}
-          className="h-full rounded-full transition-all duration-100"
-          style={{
-            width: `${progress}%`,
-            background: 'linear-gradient(90deg, hsl(190 100% 50%), hsl(265 85% 60%))',
-            boxShadow: '0 0 15px hsl(190 100% 50% / 0.5)',
-          }}
+      {/* RippleGrid background */}
+      <div className="absolute inset-0 z-[0]">
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#ffffff"
+          rippleIntensity={0.05}
+          gridSize={10}
+          gridThickness={15}
+          mouseInteraction={true}
+          mouseInteractionRadius={1.2}
+          opacity={0.2}
         />
       </div>
 
-      <span className="mt-4 text-sm font-mono text-muted-foreground tracking-widest">
-        {progress}%
-      </span>
+      {/* Dark overlay */}
+      <div className="absolute inset-0 z-[1] bg-black/70" />
+
+      {/* Content */}
+      <div className="relative z-[2] flex flex-col items-center">
+        <div className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-white/50 mb-8">
+          Loading
+        </div>
+
+        <h1
+          ref={textRef}
+          className="text-6xl md:text-8xl font-black tracking-tighter mb-12 text-white"
+          style={{ letterSpacing: '-0.05em' }}
+        >
+          SHIHAS YASIN
+        </h1>
+
+        <div className="relative w-64 md:w-80 h-[2px] overflow-hidden bg-white/10">
+          <div
+            ref={progressRef}
+            className="h-full transition-all duration-100 bg-white"
+            style={{
+              width: `${progress}%`,
+            }}
+          />
+        </div>
+
+        <span className="mt-6 text-sm font-mono text-white/40 tracking-[0.3em] uppercase">
+          {progress}%
+        </span>
+      </div>
     </div>
   );
 };

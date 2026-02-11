@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
-import Galaxy from './Galaxy';
+import RippleGrid from './RippleGrid';
+import LightRays from './LightRays';
+import BlurText from './BlurText';
 
 const Hero = () => {
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -35,58 +37,108 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Galaxy background */}
-      <Galaxy density={1.2} speed={0.8} mouseInteraction />
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* RippleGrid 3D background */}
+      <div className="absolute inset-0 z-[0]">
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#ffffff"
+          rippleIntensity={0.05}
+          gridSize={10}
+          gridThickness={15}
+          mouseInteraction={true}
+          mouseInteractionRadius={1.2}
+          opacity={0.3}
+        />
+      </div>
 
-      {/* Gradient overlay for readability */}
-      <div className="absolute inset-0 z-[1]"
-        style={{
-          background: 'radial-gradient(ellipse at center, transparent 30%, hsl(225 25% 4% / 0.6) 70%)',
-        }}
-      />
+      {/* LightRays background */}
+      <div className="absolute inset-0 z-[0]">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#ffffff"
+          raysSpeed={1}
+          lightSpread={0.5}
+          rayLength={3}
+          followMouse={true}
+          mouseInfluence={0.1}
+          noiseAmount={0}
+          distortion={0}
+          pulsating={false}
+          fadeDistance={1}
+          saturation={1}
+        />
+      </div>
 
-      {/* Floating orbs */}
-      <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full animate-float opacity-20"
-        style={{ background: 'radial-gradient(circle, hsl(190 100% 50% / 0.4), transparent)', filter: 'blur(40px)' }}
-      />
-      <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full animate-float opacity-15"
-        style={{ background: 'radial-gradient(circle, hsl(265 85% 60% / 0.4), transparent)', filter: 'blur(50px)', animationDelay: '2s' }}
-      />
+      {/* Dark overlay for contrast */}
+      <div className="absolute inset-0 z-[1] bg-black/60" />
 
       {/* Content */}
-      <div className="relative z-[2] text-center px-6 max-w-4xl">
-        <h1
-          ref={headlineRef}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none mb-6 opacity-0"
-          style={{ letterSpacing: '-0.04em' }}
-        >
-          <span className="text-foreground">Hi, I'm </span>
-          <span className="gradient-text glow-text">Milad</span>
-          <br />
-          <span className="text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold block mt-2">
-            Web Developer
-          </span>
-        </h1>
-
-        <p
+      <div className="relative z-[2] text-center px-6 max-w-6xl">
+        {/* Small label */}
+        <div
           ref={subtitleRef}
-          className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-10 opacity-0 leading-relaxed"
+          className="text-sm md:text-base font-mono tracking-[0.4em] uppercase text-white/50 mb-12 opacity-0"
         >
-          Crafting immersive digital experiences with cutting-edge technology,
-          precision design, and cinematic motion.
-        </p>
+          SHIHAS YASIN S
+        </div>
 
+        {/* Main title with BlurText animation */}
+        <div
+          ref={headlineRef}
+          className="mb-12 opacity-0"
+        >
+          <div className="flex items-center justify-center gap-6 mb-2">
+            <BlurText
+              text="JUNIOR"
+              delay={100}
+              animateBy="letters"
+              direction="top"
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center"
+              stepDuration={0.2}
+            />
+            <BlurText
+              text="PYTHON"
+              delay={100}
+              animateBy="letters"
+              direction="top"
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center"
+              stepDuration={0.2}
+            />
+          </div>
+          <BlurText
+            text="DEVELOPER"
+            delay={100}
+            animateBy="letters"
+            direction="top"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center block"
+            stepDuration={0.2}
+          />
+        </div>
+
+        {/* CTA Button */}
         <a
           ref={ctaRef}
-          href="#contact"
-          onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-          className="btn-neo inline-flex items-center gap-2 px-8 py-4 rounded-full text-foreground font-semibold text-lg opacity-0 cursor-pointer"
+          href="#projects"
+          onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
+          className="inline-flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/30 text-white font-medium text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
+          style={{ 
+            borderStyle: 'dashed',
+            animation: 'spin 20s linear infinite'
+          }}
         >
-          Hire Me
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
+          <span className="block" style={{ animation: 'spin 20s linear infinite reverse' }}>
+            View Work
+          </span>
         </a>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
 };

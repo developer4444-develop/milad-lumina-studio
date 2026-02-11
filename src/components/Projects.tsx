@@ -1,42 +1,28 @@
 import { useEffect, useRef } from 'react';
+import RippleGrid from './RippleGrid';
+import BlurText from './BlurText';
 import { ArrowUpRight } from '@phosphor-icons/react';
 
 const projects = [
   {
-    title: 'Aurora Dashboard',
-    description: 'Real-time analytics platform with data visualization and AI insights.',
-    tags: ['React', 'D3.js', 'Node.js'],
+    title: 'Rental Platform',
+    description: 'Backend development for user registration, bookings, and vehicle listings with real-time booking updates using WebSockets.',
+    tags: ['Django', 'REST API', 'WebSocket', 'PostgreSQL'],
     color: 'hsl(190 100% 50%)',
+    company: 'BrandStrek Coders',
   },
   {
-    title: 'NexGen Commerce',
-    description: 'High-conversion e-commerce with immersive 3D product previews.',
-    tags: ['Next.js', 'Three.js', 'Stripe'],
+    title: 'Cloud Kitchen Platform',
+    description: 'Multi-branch cloud kitchen system with role-based authentication for admin, staff, and delivery partners.',
+    tags: ['Django', 'REST API', 'WebSocket', 'PostgreSQL'],
     color: 'hsl(220 90% 60%)',
+    company: 'BrandStrek Coders',
   },
   {
-    title: 'Pulse Social',
-    description: 'Social media platform with real-time messaging and content feeds.',
-    tags: ['React', 'Socket.io', 'PostgreSQL'],
+    title: 'E-Commerce Admin Dashboard',
+    description: 'Professional admin dashboard system with customized UI template for managing products, orders, and users across multiple e-commerce projects.',
+    tags: ['Django', 'Bootstrap', 'PostgreSQL'],
     color: 'hsl(265 85% 60%)',
-  },
-  {
-    title: 'Cipher Vault',
-    description: 'Enterprise-grade security platform with end-to-end encryption.',
-    tags: ['TypeScript', 'Rust', 'WebAssembly'],
-    color: 'hsl(170 80% 45%)',
-  },
-  {
-    title: 'Orbit Studio',
-    description: 'Creative agency portfolio with GSAP-powered micro-interactions.',
-    tags: ['GSAP', 'WebGL', 'Figma'],
-    color: 'hsl(30 90% 55%)',
-  },
-  {
-    title: 'SynapseAI',
-    description: 'Machine learning interface with neural network visualizations.',
-    tags: ['Python', 'TensorFlow', 'React'],
-    color: 'hsl(340 80% 55%)',
   },
 ];
 
@@ -76,54 +62,77 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="section-padding relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="projects-header mb-16 opacity-0">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3">
-            Selected <span className="gradient-text">Work</span>
-          </h2>
-          <p className="text-muted-foreground max-w-md">
-            A curated collection of projects that showcase my craft in design, development, and creative technology.
-          </p>
+    <section id="projects" ref={sectionRef} className="section-padding relative bg-black">
+      {/* RippleGrid background */}
+      <div className="absolute inset-0 z-[0]">
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#ffffff"
+          rippleIntensity={0.05}
+          gridSize={10}
+          gridThickness={15}
+          mouseInteraction={true}
+          mouseInteractionRadius={1.2}
+          opacity={0.2}
+        />
+      </div>
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 z-[1] bg-black/70" />
+
+      <div className="relative z-[2] max-w-7xl mx-auto">
+        <div className="projects-header mb-16 opacity-0 text-center">
+          <div className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-white/50 mb-4">
+            Selected Work
+          </div>
+          <BlurText
+            text="PROJECTS"
+            delay={100}
+            animateBy="letters"
+            direction="top"
+            className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-8 justify-center"
+            stepDuration={0.2}
+          />
+          <div className="w-20 h-[2px] bg-white/30 mx-auto" />
         </div>
 
-        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (
             <div
               key={project.title}
-              className="project-card group glass rounded-2xl overflow-hidden opacity-0 cursor-pointer transition-all duration-500 hover:translate-y-[-4px]"
-              style={{
-                ['--card-glow' as string]: project.color,
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.boxShadow = `0 0 30px ${project.color}30, 0 0 60px ${project.color}10`;
-                el.style.borderColor = `${project.color}40`;
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.boxShadow = '';
-                el.style.borderColor = '';
-              }}
+              className="project-card group opacity-0 cursor-target flex"
             >
-              {/* Color accent bar */}
-              <div className="h-[2px] w-full" style={{ background: `linear-gradient(90deg, ${project.color}, transparent)` }} />
+              <div className="border border-white/20 rounded-lg overflow-hidden hover:border-white/50 transition-all duration-500 hover:translate-y-[-4px] flex flex-col w-full">
+                {/* Color accent bar */}
+                <div className="h-[2px] w-full bg-white/30" />
 
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <span className="text-xs font-mono text-muted-foreground">0{i + 1}</span>
-                  <ArrowUpRight size={20} weight="light" className="text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-                </div>
+                <div className="p-6 bg-black/40 backdrop-blur-sm flex-1 flex flex-col">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="text-xs font-mono text-white/40">0{i + 1}</span>
+                    <ArrowUpRight 
+                      size={20} 
+                      weight="light" 
+                      className="text-white/40 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" 
+                    />
+                  </div>
 
-                <h3 className="text-xl font-semibold mb-2 text-foreground tracking-tight">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{project.description}</p>
+                  {project.company && (
+                    <div className="text-xs font-mono text-white/40 mb-3">{project.company}</div>
+                  )}
 
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-muted/50 text-muted-foreground">
-                      {tag}
-                    </span>
-                  ))}
+                  <h3 className="text-xl font-bold mb-3 text-white tracking-tight">{project.title}</h3>
+                  <p className="text-sm text-white/60 mb-5 leading-relaxed flex-1">{project.description}</p>
+
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {project.tags.map((tag) => (
+                      <span 
+                        key={tag} 
+                        className="text-[10px] font-mono uppercase tracking-wider px-3 py-1 border border-white/20 rounded text-white/50"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
