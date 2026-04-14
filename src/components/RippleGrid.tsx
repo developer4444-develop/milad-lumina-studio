@@ -35,10 +35,21 @@ const RippleGrid = ({
   const mousePositionRef = useRef({ x: 0.5, y: 0.5 });
   const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
   const mouseInfluenceRef = useRef(0);
+  const isVisibleRef = useRef(true);
   const uniformsRef = useRef<any>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(containerRef.current);
 
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -48,7 +59,7 @@ const RippleGrid = ({
     };
 
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
+      dpr: Math.min(window.devicePixelRatio, 1.5),
       alpha: true
     });
     const gl = renderer.gl;
@@ -184,7 +195,8 @@ const RippleGrid = ({
     const mesh = new Mesh(gl, { geometry, program });
 
     const resize = () => {
-      const { clientWidth: w, clientHeight: h } = containerRef.current!;
+      if (!containerRef.current) return;
+      const { clientWidth: w, clientHeight: h } = containerRef.current;
       renderer.setSize(w, h);
       uniforms.iResolution.value = [w, h];
     };
@@ -195,6 +207,26 @@ const RippleGrid = ({
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
       targetMouseRef.current = { x, y };
+    };
+
+    let animationId: number;
+    const render = (t: number) => {
+      if (isVisibleRef.current) {
+        uniforms.iTime.value = t * 0.001;
+
+        const lerpFactor = 0.1;
+        mousePositionRef.current.x += (targetMouseRef.current.x - mousePositionRef.current.x) * lerpFactor;
+        mousePositionRef.current.y += (targetMouseRef.current.y - mousePositionRef.current.y) * lerpFactor;
+
+        const currentInfluence = uniforms.mouseInfluence.value;
+        const targetInfluence = mouseInfluenceRef.current;
+        uniforms.mouseInfluence.value += (targetInfluence - currentInfluence) * 0.05;
+
+        uniforms.mousePosition.value = [mousePositionRef.current.x, mousePositionRef.current.y];
+
+        renderer.render({ scene: mesh });
+      }
+      animationId = requestAnimationFrame(render);
     };
 
     const handleMouseEnter = () => {
@@ -215,34 +247,16 @@ const RippleGrid = ({
     }
 
     resize();
-
-    const render = (t: number) => {
-      uniforms.iTime.value = t * 0.001;
-
-      const lerpFactor = 0.1;
-      mousePositionRef.current.x += (targetMouseRef.current.x - mousePositionRef.current.x) * lerpFactor;
-      mousePositionRef.current.y += (targetMouseRef.current.y - mousePositionRef.current.y) * lerpFactor;
-
-      const currentInfluence = uniforms.mouseInfluence.value;
-      const targetInfluence = mouseInfluenceRef.current;
-      uniforms.mouseInfluence.value += (targetInfluence - currentInfluence) * 0.05;
-
-      uniforms.mousePosition.value = [mousePositionRef.current.x, mousePositionRef.current.y];
-
-      renderer.render({ scene: mesh });
-      requestAnimationFrame(render);
-    };
-
-    requestAnimationFrame(render);
+    animationId = requestAnimationFrame(render);
 
     const container = containerRef.current;
     return () => {
       window.removeEventListener('resize', resize);
+      observer.disconnect();
       if (mouseInteraction && container) {
         container.removeEventListener('mousemove', handleMouseMove);
-        container.removeEventListener('mouseenter', handleMouseEnter);
-        container.removeEventListener('mouseleave', handleMouseLeave);
       }
+      cancelAnimationFrame(animationId);
       renderer.gl.getExtension('WEBGL_lose_context')?.loseContext();
       container?.removeChild(gl.canvas);
     };

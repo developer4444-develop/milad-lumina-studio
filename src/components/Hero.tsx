@@ -7,6 +7,7 @@ const Hero = () => {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
+  const resumeRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const loadGsap = async () => {
@@ -26,9 +27,9 @@ const Hero = () => {
           '-=0.6'
         )
         .fromTo(
-          ctaRef.current,
+          [ctaRef.current, resumeRef.current],
           { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+          { opacity: 1, scale: 1, duration: 0.6, stagger: 0.2, ease: 'back.out(1.7)' },
           '-=0.4'
         );
     };
@@ -78,7 +79,7 @@ const Hero = () => {
         {/* Small label */}
         <div
           ref={subtitleRef}
-          className="text-sm md:text-base font-mono tracking-[0.4em] uppercase text-white/50 mb-12 opacity-0"
+          className="text-xs md:text-base font-mono tracking-[0.4em] uppercase text-white/50 mb-8 md:mb-12 opacity-0"
         >
           SHIHAS YASIN S
         </div>
@@ -86,15 +87,15 @@ const Hero = () => {
         {/* Main title with BlurText animation */}
         <div
           ref={headlineRef}
-          className="mb-12 opacity-0"
+          className="mb-12 md:mb-16 opacity-0"
         >
-          <div className="flex items-center justify-center gap-6 mb-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-2">
             <BlurText
               text="JUNIOR"
               delay={100}
               animateBy="letters"
               direction="top"
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-white justify-center"
               stepDuration={0.2}
             />
             <BlurText
@@ -102,7 +103,7 @@ const Hero = () => {
               delay={100}
               animateBy="letters"
               direction="top"
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-white justify-center"
               stepDuration={0.2}
             />
           </div>
@@ -111,26 +112,46 @@ const Hero = () => {
             delay={100}
             animateBy="letters"
             direction="top"
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white justify-center block"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-white justify-center block"
             stepDuration={0.2}
           />
         </div>
 
-        {/* CTA Button */}
-        <a
-          ref={ctaRef}
-          href="#projects"
-          onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
-          className="inline-flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/30 text-white font-medium text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
-          style={{ 
-            borderStyle: 'dashed',
-            animation: 'spin 20s linear infinite'
-          }}
-        >
-          <span className="block" style={{ animation: 'spin 20s linear infinite reverse' }}>
-            View Work
-          </span>
-        </a>
+        {/* Action Buttons Group */}
+        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+          {/* View Work CTA */}
+          <a
+            ref={ctaRef}
+            href="#projects"
+            onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/30 text-white font-medium text-[10px] md:text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
+            style={{ 
+              borderStyle: 'dashed',
+              animation: 'spin 20s linear infinite'
+            }}
+          >
+            <span className="block" style={{ animation: 'spin 20s linear infinite reverse' }}>
+              View Work
+            </span>
+          </a>
+
+          {/* Resume CTA */}
+          <a
+            ref={resumeRef}
+            href="https://drive.google.com/file/d/1Dd2GjOJ3JXnOgCGSt2hmZMP5V_2jrrpX/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/60 text-white font-medium text-[10px] md:text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
+            style={{ 
+              borderStyle: 'dashed',
+              animation: 'spin 20s linear infinite reverse'
+            }}
+          >
+            <span className="block" style={{ animation: 'spin 20s linear infinite' }}>
+              My Resume
+            </span>
+          </a>
+        </div>
       </div>
 
       <style>{`
