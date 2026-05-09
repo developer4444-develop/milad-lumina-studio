@@ -95,7 +95,7 @@ const About = () => {
             About Me
           </div>
           <BlurText
-            text="PYTHON DEVELOPER"
+            text="PYTHON FULL STACK DEVELOPER"
             delay={100}
             animateBy="letters"
             direction="top"
@@ -106,7 +106,7 @@ const About = () => {
 
           <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
             <p className="text-white/70 leading-relaxed text-base md:text-lg cursor-target">
-              Junior Python Developer experienced in Django and DRF, building RESTful APIs, 
+              Python Full Stack Developer experienced in Django and DRF, building RESTful APIs, 
               integrating third-party services, and managing PostgreSQL databases. 
               Strong background in backend architecture, authentication, and scalable server-side development.
             </p>
@@ -115,10 +115,9 @@ const About = () => {
                 href="https://drive.google.com/file/d/1Dd2GjOJ3JXnOgCGSt2hmZMP5V_2jrrpX/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-3 border border-white/20 rounded-full text-[10px] md:text-xs font-mono uppercase tracking-[0.2em] text-white/50 hover:text-white hover:border-white/60 hover:bg-white/5 transition-all duration-500 cursor-target group"
+                className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-white/90 transition-colors cursor-target"
               >
-                Download Full CV
-                <span className="w-1.5 h-1.5 rounded-full bg-white/40 group-hover:bg-white animate-pulse" />
+                View Resume
               </a>
             </div>
           </div>

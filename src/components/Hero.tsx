@@ -27,9 +27,15 @@ const Hero = () => {
           '-=0.6'
         )
         .fromTo(
-          [ctaRef.current, resumeRef.current],
+          ctaRef.current,
           { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1, duration: 0.6, stagger: 0.2, ease: 'back.out(1.7)' },
+          { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+          '-=0.4'
+        )
+        .fromTo(
+          resumeRef.current,
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
           '-=0.4'
         );
     };
@@ -91,7 +97,7 @@ const Hero = () => {
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-2">
             <BlurText
-              text="JUNIOR"
+              text="PYTHON"
               delay={100}
               animateBy="letters"
               direction="top"
@@ -99,7 +105,7 @@ const Hero = () => {
               stepDuration={0.2}
             />
             <BlurText
-              text="PYTHON"
+              text="FULL STACK"
               delay={100}
               animateBy="letters"
               direction="top"
@@ -119,7 +125,7 @@ const Hero = () => {
 
         {/* Action Buttons Group */}
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          {/* View Work CTA */}
+          {/* View Works CTA */}
           <a
             ref={ctaRef}
             href="#projects"
@@ -131,24 +137,24 @@ const Hero = () => {
             }}
           >
             <span className="block" style={{ animation: 'spin 20s linear infinite reverse' }}>
-              View Work
+              View Works
             </span>
           </a>
 
-          {/* Resume CTA */}
+          {/* View Resume CTA */}
           <a
             ref={resumeRef}
             href="https://drive.google.com/file/d/1Dd2GjOJ3JXnOgCGSt2hmZMP5V_2jrrpX/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/60 text-white font-medium text-[10px] md:text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
+            className="inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/30 text-white font-medium text-[10px] md:text-xs uppercase tracking-widest opacity-0 cursor-pointer transition-all duration-500 hover:border-white hover:bg-white/10 hover:scale-110 cursor-target"
             style={{ 
               borderStyle: 'dashed',
-              animation: 'spin 20s linear infinite reverse'
+              animation: 'spin 20s linear infinite'
             }}
           >
-            <span className="block" style={{ animation: 'spin 20s linear infinite' }}>
-              My Resume
+            <span className="block" style={{ animation: 'spin 20s linear infinite reverse' }}>
+              View Resume
             </span>
           </a>
         </div>

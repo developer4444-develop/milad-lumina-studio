@@ -4,9 +4,19 @@ import BlurText from './BlurText';
 
 const experiences = [
   {
+    role: 'Python Full Stack Developer',
+    company: 'Nesa Softwares',
+    period: 'May 2026 — Present',
+    description: [
+      'Working as a Python Full Stack Developer based in Kochi, Ernakulam.',
+      'Building robust web applications using Python, Django, and modern frontend technologies.',
+      'Collaborating with the team to deliver high-quality software solutions.'
+    ]
+  },
+  {
     role: 'Python Developer',
     company: 'BrandStrek Coders',
-    period: 'Aug 2025 — Present',
+    period: 'Aug 2025 — Apr 2026',
     description: [
       'Developing and maintaining production-ready backend modules using Django and DRF.',
       'Building and optimizing APIs for core business modules.',
@@ -16,7 +26,7 @@ const experiences = [
   {
     role: 'Automation / Backend Developer',
     company: 'BrandStrek Coders',
-    period: 'Feb 2025 — Present',
+    period: 'Feb 2025 — Apr 2026',
     description: [
       'Leading a team focused on AI automation solutions and no-code website development.',
       'Implementing automation systems using n8n and other AI-powered tools.',
